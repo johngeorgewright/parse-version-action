@@ -22,10 +22,11 @@ runs:
     - id: parser
       shell: bash
       run: |
-        if [[ '${{ inputs.ref }}' == refs/tags/${{ inputs.trim-start }}* ]]; then
-          VERSION=${${{ inputs.ref }}#refs/tags/${{ inputs.trim-start }}}
+        REF='${{ inputs.ref }}'
+        if [[ $REF == refs/tags/${{ inputs.trim-start }}* ]]; then
+          VERSION=${REF#refs/tags/${{ inputs.trim-start }}}
         else
-          echo "No idea how to decipher this ref: '${{ inputs.ref }}'"
+          echo "No idea how to decipher this ref: $REF"
           exit 1
         fi 
         echo ::set-output name=version::$VERSION
