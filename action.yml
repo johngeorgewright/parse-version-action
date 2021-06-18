@@ -1,0 +1,31 @@
+name: Version Parsers
+
+description: Deciphers a release/tag version from a git ref.
+
+inputs:
+  trim-start:
+    description: Expect the version to begin with a string (for example 'v') and remove it
+    default: ''
+    required: true
+  ref:
+    description: The git ref to parse
+    required: true
+
+outputs:
+  version:
+    description: The version found in the git ref
+    value: ${{ steps.parser.outputs.version }}
+
+runs:
+  using: composite
+  steps:
+    - id: parser
+      shell: bash
+      run: |
+        if [[ '${{ inputs.ref }}' == refs/tags/${{ inputs.trim-start }}* ]]; then
+          VERSION=${${{ inputs.ref }}#refs/tags/${{ inputs.trim-start }}}
+        else
+          echo "No idea how to decipher this ref: '${{ inputs.ref }}'"
+          exit 1
+        fi 
+        echo ::set-output name=version::$VERSION
