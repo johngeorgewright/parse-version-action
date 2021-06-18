@@ -1,0 +1,42 @@
+name: 𝌡   Pull Request
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚  Checkout project
+        uses: actions/checkout@v2
+
+      - name: Parse version with "trim-start"
+        id: parser1
+        uses: .
+        with:
+          ref: refs/tags/v1.2.3
+          trim-start: v
+
+      - name: 🧪  Assert
+        run: |
+          if [[ '${{ steps.parser1.outputs.version }}' != '1.2.3' ]]
+          then
+            echo "${{ steps.parser1.outputs.version }} does not equal '1.2.3'"
+            exit 1
+          fi
+
+      - name: Parse version without "trim-start"
+        id: parser2
+        uses: .
+        with:
+          ref: refs/tags/v1.2.3
+
+      - name: 🧪  Assert
+        run: |
+          if [[ '${{ steps.parser2.outputs.version }}' != 'v1.2.3' ]]
+          then
+            echo "${{ steps.parser2.outputs.version }} does not equal 'v1.2.3'"
+            exit 1
+          fi
