@@ -6,8 +6,8 @@ A GitHub action to parse release &amp; tags versions.
 
 | Name | Description | Required |
 | --- | --- | --- |
-| *ref* | The git reference to parse | `true` |
-| *trim-start* | Expect the version to begin with a string (for example 'v') and remove it | `false` |
+| `ref` | The git reference to parse | `true` |
+| `trim-start` | Expect the version to begin with a string (for example 'v') and remove it | `false` |
 
 ## Example
 
@@ -16,26 +16,14 @@ jobs:
   decipher:
     name: Decipher
     runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.parser.outputs.version }}
     steps:
       - name: Parser
         id: parser
-        uses: johngeorgewright/parse-version-action@v1.0.2
+        uses: johngeorgewright/parse-version-action
         with:
           ref: ${{ github.ref }}
           trim-start: v
 
-  publish:
-    name: Publish
-    runs-on: ubuntu-latest
-    needs: [decipher]
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@v2
-      # ...
-      - name: Publish to NPM
-        run: |
-          npm version ${{ needs.decipher.outputs.version }}
-          npm publish
+      - name: Debug
+        run: echo 'version = ${{ steps.parser.outputs.version }}'
 ```
