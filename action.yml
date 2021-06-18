@@ -1,4 +1,4 @@
-name: Version Parsers
+name: Version Parser
 
 description: Deciphers a release/tag version from a git ref.
 

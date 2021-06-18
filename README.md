@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Parser
         id: parser
-        uses: johngeorgewright/parser-version-action@v1.0.1
+        uses: johngeorgewright/parse-version-action@v1.0.2
         with:
           ref: ${{ github.ref }}
           trim-start: v
