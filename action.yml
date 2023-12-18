@@ -28,5 +28,5 @@ runs:
         else
           echo "No idea how to decipher this ref: $REF"
           exit 1
-        fi 
-        echo ::set-output name=version::$VERSION
+        fi
+        echo name=version::$VERSION >> $GITHUB_OUTPUT
