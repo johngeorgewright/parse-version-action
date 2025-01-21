@@ -29,4 +29,4 @@ runs:
           echo "No idea how to decipher this ref: $REF"
           exit 1
         fi 
-        echo ::set-output name=version::$VERSION
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
